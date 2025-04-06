@@ -17,9 +17,7 @@ import type { FormSchema } from './types'
  */
 
 const formModel = ref({
-  name: '',
-  age: '',
-  sex: '',
+
 })
 const props = defineProps<FormSchema>()
 </script>
