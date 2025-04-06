@@ -120,4 +120,6 @@ export interface FormSchema {
    * @returns 远程加载下拉项
    */
   optionApi?: unknown
+
+  rules?: unknown
 }

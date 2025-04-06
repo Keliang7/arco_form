@@ -1,29 +1,54 @@
 <script setup lang="tsx">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import type { PropType } from 'vue'
 import type { FormSchema } from './types'
-/**
- * arcodesign的form
- * 1.model必填，是form的数据
- * 2.size: 'mini' | 'small' | 'default' | 'large' 样式的大小
- * 3.关于layout的问题
- *    涉及到相关的属性
- *        label-col-props
- *        wrapper-col-props
- *        auto-col-props
- *        label-align
- *    这些仅仅在 layout="horizontal" 下生效
- * 4.scroll-to-first-error
- *   是否滚动到第一个错误的表单项
- */
+import { componentMap } from './helper/componentMap'
 
-const formModel = ref({
-
+const props = defineProps({
+  schema: {
+    type: Array as PropType<FormSchema[]>,
+    default: () => [],
+  },
+  isCol: {
+    type: Boolean,
+    default: true,
+  },
+  model: {
+    type: Object,
+    default: () => ({}),
+  },
 })
-const props = defineProps<FormSchema>()
+
+const formModel = ref(
+  props.schema.reduce(
+    (acc: Record<string, any>, item) => {
+      acc[item.field] = item.value || null
+      return acc
+    },
+    {} as Record<string, any>,
+  ),
+)
+
+const formRules = computed(() =>
+  props.schema.reduce(
+    (acc: Record<string, any>, item) => {
+      if (item.rules) {
+        acc[item.field] = item.rules
+      }
+      return acc
+    },
+    {} as Record<string, any>,
+  ),
+)
+onMounted(() => {
+  console.log(props.schema)
+})
 </script>
+
 <template>
   <AForm
     :model="formModel"
+    :rules="formRules"
     :size="'mini'"
     scroll-to-first-error
     :label-col-props="{ span: 5, offset: 0 }"
@@ -31,31 +56,30 @@ const props = defineProps<FormSchema>()
     :auto-label-width="true"
   >
     <ARow :justify="'start'" :align="'start'">
-      <ACol :span="12">
-        <AFormItem field="name" label="Username" validate-trigger="input" required>
-          <AInput v-model="formModel.name" placeholder="please enter your username..." />
+      <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 12">
+        <AFormItem
+          :field="item.field"
+          :label="item.label"
+          :validate-trigger="item.validateTrigger || 'input'"
+          :required="item.required || false"
+        >
+          <component
+            :is="componentMap['Select']"
+            v-model="formModel[item.field]"
+            v-bind="item.componentProps"
+          />
+          <AAutoComplete></AAutoComplete>
           <template #extra>
-            <div>Used to login</div>
-          </template>
-        </AFormItem>
-      </ACol>
-      <ACol :span="12">
-        <AFormItem field="age" label="Age" validate-trigger="input" required>
-          <AInput v-model="formModel.age" placeholder="please enter your age..." />
-          <template #extra>
-            <div>Used to login</div>
-          </template>
-        </AFormItem>
-      </ACol>
-      <ACol>
-        <AFormItem field="sex" label="Sex" validate-trigger="input" required>
-          <AInput v-model="formModel.sex" placeholder="please enter your sex..." />
-          <template #extra>
-            <div>Used to login</div>
+            <div v-if="item.extra">{{ item.extra }}</div>
           </template>
         </AFormItem>
       </ACol>
     </ARow>
   </AForm>
 </template>
-<style scoped></style>
+
+<style scoped>
+.AFormItem {
+  margin-bottom: 16px;
+}
+</style>
