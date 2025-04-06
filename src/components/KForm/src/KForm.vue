@@ -68,7 +68,6 @@ onMounted(() => {
             v-model="formModel[item.field]"
             v-bind="item.componentProps"
           />
-          <AAutoComplete></AAutoComplete>
           <template #extra>
             <div v-if="item.extra">{{ item.extra }}</div>
           </template>
@@ -77,9 +76,9 @@ onMounted(() => {
     </ARow>
   </AForm>
 </template>
-
+<!--
 <style scoped>
 .AFormItem {
   margin-bottom: 16px;
 }
-</style>
+</style> -->
