@@ -24,7 +24,6 @@ const schema: FormSchema[] = [
   },
   {
     field: 'test',
-    label: '用户名',
     value: 'admin',
     component: 'Select',
     componentProps: {

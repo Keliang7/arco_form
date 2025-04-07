@@ -56,12 +56,11 @@ onMounted(() => {
     :auto-label-width="true"
   >
     <ARow :justify="'start'" :align="'start'">
-      <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 12">
+      <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 24">
         <AFormItem
           :style="{ marginBottom: '0' }"
-          :label-col-style="{ backgroundColor: 'yellow' }"
           :field="item.field"
-          :label="item.label"
+          :label="item.label || item.field"
           v-bind="item.formItemProps"
         >
           <component
@@ -69,7 +68,6 @@ onMounted(() => {
             v-model="formModel[item.field]"
             v-bind="item.componentProps"
           />
-          {{ item.formItemProps }}
         </AFormItem>
       </ACol>
     </ARow>

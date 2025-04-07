@@ -64,9 +64,9 @@ export interface FormSchema {
   label?: string
 
   /**
-   * col组件属性
+   * 初始值
    */
-  colProps?: ColProps
+  value?: unknown
 
   /**
    * 渲染的组件名称
@@ -102,22 +102,8 @@ export interface FormSchema {
   formItemProps?: FormItemInstance['$props']
 
   /**
-   * 初始值
+   * col组件属性
+   * row组件固定24格
    */
-  value?: unknown
-
-  /**
-   * 是否隐藏，如果为true，会连同值一同删除，类似v-if
-   */
-  remove?: boolean
-
-  /**
-   * 样式隐藏，不会把值一同删掉，类似v-show
-   */
-  hidden?: boolean
-
-  /**
-   * @returns 远程加载下拉项
-   */
-  optionApi?: unknown
+  colProps?: ColProps
 }
