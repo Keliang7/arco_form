@@ -122,5 +122,5 @@ export interface FormSchema {
    */
   optionApi?: unknown
 
-  rules?: FieldRule<any> | FieldRule<any>[] | undefined
+  rules?: FieldRule | FieldRule[]
 }

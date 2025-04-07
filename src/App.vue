@@ -7,7 +7,7 @@ const schema: FormSchema[] = [
     label: '用户名',
     value: 'admin',
     component: 'Input', // Ensure this matches the union type
-    rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+    rules: { required: true, message: '请输入用户名' },
   },
 ]
 </script>
