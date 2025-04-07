@@ -21,8 +21,6 @@ import {
 } from '@arco-design/web-vue'
 import type { ComponentName } from '../types'
 
-type Recordable<T = unknown, K extends string | number | symbol = string> = Record<K extends null | undefined ? string : K, T>
-
 const componentMap: Recordable<Component, ComponentName> = {
   AutoComplete,
   Cascader,

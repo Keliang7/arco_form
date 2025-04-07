@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, onMounted } from 'vue'
+import { ref, unref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { FormSchema } from './types'
 import { componentMap } from './helper/componentMap'
@@ -18,6 +18,14 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  autoSetPlaceholder: {
+    type: Boolean,
+    default: true,
+  },
+  labelWidth: {
+    type: String,
+    default: '100px',
+  },
 })
 
 const formModel = ref(
@@ -30,8 +38,10 @@ const formModel = ref(
   ),
 )
 const formRef = ref<FormInstance>()
+
+const emit = defineEmits(['register'])
 onMounted(() => {
-  console.log(props.schema)
+  emit('register', unref(formRef)?.$parent, unref(formRef))
 })
 </script>
 
