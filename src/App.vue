@@ -1,10 +1,12 @@
 <script setup lang="ts">
-const schema = [
+import type { FormSchema } from './components/KForm/src/types'
+
+const schema: FormSchema[] = [
   {
     field: 'username',
     label: '用户名',
     value: 'admin',
-    component: 'AInput',
+    component: 'Input', // Ensure this matches the union type
     rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   },
 ]

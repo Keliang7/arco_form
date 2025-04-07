@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { FormSchema } from './types'
 import { componentMap } from './helper/componentMap'
@@ -21,23 +21,11 @@ const props = defineProps({
 
 const formModel = ref(
   props.schema.reduce(
-    (acc: Record<string, any>, item) => {
+    (acc: Record<string, unknown>, item) => {
       acc[item.field] = item.value || null
       return acc
     },
-    {} as Record<string, any>,
-  ),
-)
-
-const formRules = computed(() =>
-  props.schema.reduce(
-    (acc: Record<string, any>, item) => {
-      if (item.rules) {
-        acc[item.field] = item.rules
-      }
-      return acc
-    },
-    {} as Record<string, any>,
+    {} as Record<string, unknown>,
   ),
 )
 onMounted(() => {
@@ -48,7 +36,6 @@ onMounted(() => {
 <template>
   <AForm
     :model="formModel"
-    :rules="formRules"
     :size="'mini'"
     scroll-to-first-error
     :label-col-props="{ span: 5, offset: 0 }"
@@ -57,20 +44,12 @@ onMounted(() => {
   >
     <ARow :justify="'start'" :align="'start'">
       <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 12">
-        <AFormItem
-          :field="item.field"
-          :label="item.label"
-          :validate-trigger="item.validateTrigger || 'input'"
-          :required="item.required || false"
-        >
+        <AFormItem :field="item.field" :label="item.label">
           <component
-            :is="componentMap['Select']"
+            :is="item.component ? componentMap[item.component] : 'Input'"
             v-model="formModel[item.field]"
             v-bind="item.componentProps"
           />
-          <template #extra>
-            <div v-if="item.extra">{{ item.extra }}</div>
-          </template>
         </AFormItem>
       </ACol>
     </ARow>
