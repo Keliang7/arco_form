@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import type { FormSchema } from './types'
 import { componentMap } from './helper/componentMap'
+import type { FormInstance } from '@arco-design/web-vue'
 
 const props = defineProps({
   schema: {
@@ -28,6 +29,7 @@ const formModel = ref(
     {} as Record<string, unknown>,
   ),
 )
+const formRef = ref<FormInstance>()
 onMounted(() => {
   console.log(props.schema)
 })
@@ -35,8 +37,9 @@ onMounted(() => {
 
 <template>
   <AForm
+    ref="formRef"
     :model="formModel"
-    :size="'mini'"
+    :size="'large'"
     scroll-to-first-error
     :label-col-props="{ span: 5, offset: 0 }"
     :wrapper-col-props="{ span: 19, offset: 0 }"
@@ -44,7 +47,13 @@ onMounted(() => {
   >
     <ARow :justify="'start'" :align="'start'">
       <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 12">
-        <AFormItem :field="item.field" :label="item.label" :rules="item.rules">
+        <AFormItem
+          :style="{ marginBottom: '0' }"
+          :label-col-style="{ backgroundColor: 'yellow' }"
+          :field="item.field"
+          :label="item.label"
+          :rules="item.rules"
+        >
           <component
             :is="item.component ? componentMap[item.component] : 'Input'"
             v-model="formModel[item.field]"
@@ -55,9 +64,3 @@ onMounted(() => {
     </ARow>
   </AForm>
 </template>
-<!--
-<style scoped>
-.AFormItem {
-  margin-bottom: 16px;
-}
-</style> -->
