@@ -56,20 +56,22 @@ onMounted(() => {
     :auto-label-width="true"
   >
     <ARow :justify="'start'" :align="'start'">
-      <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 24">
-        <AFormItem
-          :style="{ marginBottom: '0' }"
-          :field="item.field"
-          :label="item.label || item.field"
-          v-bind="item.formItemProps"
-        >
-          <component
-            :is="item.component ? componentMap[item.component] : 'Input'"
-            v-model="formModel[item.field]"
-            v-bind="item.componentProps"
-          />
-        </AFormItem>
-      </ACol>
+      <template v-for="item in props.schema" :key="item.field">
+        <ACol v-if="!item.remove" v-show="!item.hidden" :span="item.colProps?.span || 24">
+          <AFormItem
+            :style="{ marginBottom: '0' }"
+            :field="item.field"
+            :label="item.label || item.field"
+            v-bind="item.formItemProps"
+          >
+            <component
+              :is="item.component ? componentMap[item.component] : 'Input'"
+              v-model="formModel[item.field]"
+              v-bind="item.componentProps"
+            />
+          </AFormItem>
+        </ACol>
+      </template>
     </ARow>
   </AForm>
 </template>

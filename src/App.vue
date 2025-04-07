@@ -2,12 +2,17 @@
 import { ref } from 'vue'
 import type { FormSchema } from './components/KForm/src/types'
 
-const schema: FormSchema[] = [
+const isHidden = ref(false)
+const schema = ref<FormSchema[]>([
   {
     field: 'username',
     label: '用户名',
     component: 'Input', // Ensure this matches the union type
+    hidden: isHidden.value,
     formItemProps: {
+      labelColStyle: {
+        backgroundColor: 'rgb(202,203,205)',
+      },
       rules: {
         required: true,
         validator(value, callback) {
@@ -35,6 +40,9 @@ const schema: FormSchema[] = [
       showCancelButton: true,
     },
     formItemProps: {
+      labelColStyle: {
+        backgroundColor: 'rgb(242,243,245)',
+      },
       rules: {
         required: true,
       },
@@ -43,7 +51,7 @@ const schema: FormSchema[] = [
       span: 24,
     },
   },
-]
+])
 
 const formRef = ref()
 const register = (...form: any) => {
@@ -52,11 +60,20 @@ const register = (...form: any) => {
 }
 
 const validator = async () => {
-  await formRef.value.validate()
+  await formRef.value.validate((e: any) => {
+    console.log('validate', e)
+    console.log('请输入', Object.keys(e))
+  })
+}
+
+const changeHidden = () => {
+  isHidden.value = !isHidden.value
+  schema.value[0].hidden = isHidden.value
 }
 </script>
 
 <template>
   <KForm :schema="schema" @register="register"></KForm>
   <button @click="validator">111</button>
+  <button @click="changeHidden">{{ isHidden }}</button>
 </template>

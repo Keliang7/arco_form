@@ -106,4 +106,14 @@ export interface FormSchema {
    * row组件固定24格
    */
   colProps?: ColProps
+
+  /**
+   * 是否隐藏，如果为true，会连同值一同删除，类似v-if
+   */
+  remove?: boolean
+
+  /**
+   * 样式隐藏，不会把值一同删掉，类似v-show
+   */
+  hidden?: boolean
 }
