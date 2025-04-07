@@ -20,6 +20,7 @@ import type {
   TreeSelectInstance,
   UploadInstance,
 } from '@arco-design/web-vue'
+import type { FieldRule } from '@arco-design/web-vue/es/form/interface'
 
 export enum ComponentNameEnum {
   AUTO_COMPLETE = 'AutoComplete',
@@ -121,5 +122,5 @@ export interface FormSchema {
    */
   optionApi?: unknown
 
-  rules?: unknown
+  rules?: FieldRule<any> | FieldRule<any>[] | undefined
 }

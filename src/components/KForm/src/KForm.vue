@@ -44,7 +44,7 @@ onMounted(() => {
   >
     <ARow :justify="'start'" :align="'start'">
       <ACol v-for="item in props.schema" :key="item.field" :span="item.colProps?.span || 12">
-        <AFormItem :field="item.field" :label="item.label">
+        <AFormItem :field="item.field" :label="item.label" :rules="item.rules">
           <component
             :is="item.component ? componentMap[item.component] : 'Input'"
             v-model="formModel[item.field]"
