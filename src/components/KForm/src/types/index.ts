@@ -1,6 +1,5 @@
 import type {
   ColProps,
-  FormInstance,
   AutoCompleteInstance,
   CascaderInstance,
   CheckboxInstance,
@@ -19,8 +18,8 @@ import type {
   TransferInstance,
   TreeSelectInstance,
   UploadInstance,
+  FormItemInstance,
 } from '@arco-design/web-vue'
-import type { FieldRule } from '@arco-design/web-vue/es/form/interface'
 
 export enum ComponentNameEnum {
   AUTO_COMPLETE = 'AutoComplete',
@@ -98,9 +97,9 @@ export interface FormSchema {
     | UploadInstance['$props']
 
   /**
-   * formItem组件属性，具体可以查看element-plus文档
+   * formItem组件属性，具体可以查看arco-design文档
    */
-  formItemProps?: FormInstance['$props']
+  formItemProps?: FormItemInstance['$props']
 
   /**
    * 初始值
@@ -121,6 +120,4 @@ export interface FormSchema {
    * @returns 远程加载下拉项
    */
   optionApi?: unknown
-
-  rules?: FieldRule | FieldRule[]
 }

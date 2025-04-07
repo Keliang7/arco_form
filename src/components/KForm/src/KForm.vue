@@ -62,13 +62,14 @@ onMounted(() => {
           :label-col-style="{ backgroundColor: 'yellow' }"
           :field="item.field"
           :label="item.label"
-          :rules="item.rules"
+          v-bind="item.formItemProps"
         >
           <component
             :is="item.component ? componentMap[item.component] : 'Input'"
             v-model="formModel[item.field]"
             v-bind="item.componentProps"
           />
+          {{ item.formItemProps }}
         </AFormItem>
       </ACol>
     </ARow>
