@@ -27,6 +27,7 @@ const props = defineProps({
     default: '100px',
   },
 })
+const emit = defineEmits(['register'])
 
 const formModel = ref(
   props.schema.reduce(
@@ -39,7 +40,6 @@ const formModel = ref(
 )
 const aFormRef = ref<AFormInstance>()
 
-const emit = defineEmits(['register'])
 onMounted(() => {
   const instance = getCurrentInstance()
   emit('register', unref(instance), unref(aFormRef))

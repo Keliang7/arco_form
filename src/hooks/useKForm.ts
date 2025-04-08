@@ -1,4 +1,5 @@
 import type { KForm, FormExpose } from '@/components/KForm'
+import type { ComponentInternalInstance } from 'vue'
 import type { Form as AForm, FormItem as AFormItem } from '@arco-design/web-vue'
 import { ref, unref, nextTick } from 'vue'
 // import { FormSchema, FormSetProps, FormProps } from '@/components/KForm'
@@ -6,17 +7,17 @@ import { ref, unref, nextTick } from 'vue'
 
 export const useKForm = () => {
   // From实例
-  const formRef = ref<typeof KForm & FormExpose>()
+  const formRef = ref<ComponentInternalInstance>()
 
   // AForm实例
   const aFormRef = ref<InstanceType<typeof AForm>>()
 
   /**
-   * @param ref KForm实例
+   * @param KFormInternal KForm组件内部实例
    * @param aRef AForm实例
    */
-  const register = (ref: typeof KForm & FormExpose, aRef: InstanceType<typeof AForm>) => {
-    formRef.value = ref
+  const register = (KFormInternal: ComponentInternalInstance, aRef: InstanceType<typeof AForm>) => {
+    formRef.value = KFormInternal
     aFormRef.value = aRef
   }
 
@@ -24,7 +25,7 @@ export const useKForm = () => {
     await nextTick()
     const form = unref(formRef)
     if (!form) {
-      console.error('The form is not registered. Please use the register method to register')
+      console.error('The KForm is not registered. Please use the register method to register')
     }
     return form
   }
