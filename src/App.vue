@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { FormSchema } from './components/KForm/src/types'
+import { useKForm } from './hooks/useKForm'
 
 const isHidden = ref(false)
 const schema = ref<FormSchema[]>([
@@ -53,27 +54,23 @@ const schema = ref<FormSchema[]>([
   },
 ])
 
-const formRef = ref()
-const register = (...form: any) => {
-  formRef.value = form[1]
-  console.log('formRef', formRef.value)
-}
+const { formRegister, formMethods } = useKForm()
+const { getFormExpose, getAFormExpose } = formMethods
 
-const validator = async () => {
-  await formRef.value.validate((e: any) => {
-    console.log('validate', e)
-    console.log('请输入', Object.keys(e))
-  })
+const test1 = async () => {
+  const form = await getFormExpose()
+  console.log('form', form)
 }
-
-const changeHidden = () => {
-  isHidden.value = !isHidden.value
-  schema.value[0].hidden = isHidden.value
+const test2 = async () => {
+  const aform = await getAFormExpose()
+  console.log('aform', aform)
 }
 </script>
 
 <template>
-  <KForm :schema="schema" @register="register"></KForm>
-  <button @click="validator">111</button>
-  <button @click="changeHidden">{{ isHidden }}</button>
+  <div class="test app">
+    <KForm :schema="schema" @register="formRegister"></KForm>
+    <button @click="test1">test1</button>
+    <button @click="test2">test2</button>
+  </div>
 </template>

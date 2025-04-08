@@ -1,9 +1,9 @@
 <script setup lang="tsx">
-import { ref, unref, onMounted } from 'vue'
+import { ref, unref, onMounted, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { FormSchema } from './types'
 import { componentMap } from './helper/componentMap'
-import type { FormInstance } from '@arco-design/web-vue'
+import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
 
 const props = defineProps({
   schema: {
@@ -37,17 +37,18 @@ const formModel = ref(
     {} as Record<string, unknown>,
   ),
 )
-const formRef = ref<FormInstance>()
+const aFormRef = ref<AFormInstance>()
 
 const emit = defineEmits(['register'])
 onMounted(() => {
-  emit('register', unref(formRef)?.$parent, unref(formRef))
+  const instance = getCurrentInstance()
+  emit('register', unref(instance), unref(aFormRef))
 })
 </script>
 
 <template>
   <AForm
-    ref="formRef"
+    ref="aFormRef"
     :model="formModel"
     :size="'large'"
     scroll-to-first-error
