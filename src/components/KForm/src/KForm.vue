@@ -1,8 +1,8 @@
 <script setup lang="tsx">
-import { ref, unref, onMounted, getCurrentInstance } from 'vue'
+import { ref, unref, computed, onMounted, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
-import type { FormSchema } from './types'
+import type { FormProps, FormSchema } from './types'
 import type { Recordable } from './helper'
 import { componentMap } from './helper/componentMap'
 
@@ -25,21 +25,22 @@ const props = defineProps({
   },
   labelWidth: {
     type: String,
-    default: '100px',
+    // default: '100px',
   },
 })
+
 const emit = defineEmits(['register'])
 
-// const formModel = ref(
-//   props.schema.reduce(
-//     (acc: Record<string, unknown>, item) => {
-//       acc[item.field] = item.value || null
-//       return acc
-//     },
-//     {} as Record<string, unknown>,
-//   ),
-// )
 const formModel = ref(props.model)
+
+const mergeProps = ref<FormProps>({})
+
+const getProps = computed(() => {
+  const propsObj = { ...props }
+  Object.assign(propsObj, unref(mergeProps))
+  return propsObj
+})
+
 const aFormRef = ref<AFormInstance>()
 
 onMounted(() => {
@@ -52,8 +53,14 @@ const setValues = (data: Recordable = {}) => {
   formModel.value = Object.assign(unref(formModel), data)
 }
 
+// 设置KForm属性
+const setProps = (props: FormProps = {}) => {
+  mergeProps.value = Object.assign(unref(mergeProps), props)
+}
+
 defineExpose({
   setValues,
+  setProps,
 })
 </script>
 
@@ -65,7 +72,7 @@ defineExpose({
     scroll-to-first-error
     :label-col-props="{ span: 5, offset: 0 }"
     :wrapper-col-props="{ span: 19, offset: 0 }"
-    :auto-label-width="true"
+    :auto-label-width="getProps.labelWidth ? false : true"
   >
     <ARow :justify="'start'" :align="'start'">
       <template v-for="item in props.schema" :key="item.field">

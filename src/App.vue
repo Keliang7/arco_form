@@ -49,13 +49,13 @@ const schema = ref<FormSchema[]>([
       },
     },
     colProps: {
-      span: 24,
+      span: 12,
     },
   },
 ])
 
 const { formRegister, formMethods } = useKForm()
-const { getFormExpose, getAFormExpose, setValues } = formMethods
+const { getFormExpose, getAFormExpose, setValues, setProps } = formMethods
 
 const getForm = async () => {
   const form = await getFormExpose()
@@ -71,6 +71,11 @@ const setFormValues = async () => {
     test: 'option1',
   })
 }
+const setFormProps = async () => {
+  await setProps({
+    labelWidth: '200px',
+  })
+}
 </script>
 
 <template>
@@ -79,5 +84,6 @@ const setFormValues = async () => {
     <button @click="getForm">getForm</button>
     <button @click="getAFrom">getAFrom</button>
     <button @click="setFormValues">setFormValues</button>
+    <button @click="setFormProps">setFormProps</button>
   </div>
 </template>

@@ -117,3 +117,11 @@ export interface FormSchema {
    */
   hidden?: boolean
 }
+export interface FormProps {
+  schema?: FormSchema[]
+  isCol?: boolean
+  model?: Recordable
+  autoSetPlaceholder?: boolean
+  labelWidth?: string
+  [key: string]: any
+}

@@ -1,8 +1,7 @@
-import type { KForm, FormExpose } from '@/components/KForm'
 import type { ComponentInternalInstance } from 'vue'
-import type { Form as AForm, FormItem as AFormItem } from '@arco-design/web-vue'
+import type { Form as AForm } from '@arco-design/web-vue'
+import type { FormProps } from '@/components/KForm'
 import { ref, unref, nextTick } from 'vue'
-// import { FormSchema, FormSetProps, FormProps } from '@/components/KForm'
 // import { isEmptyVal, isObject } from '@/utils/is'
 
 export const useKForm = () => {
@@ -36,13 +35,13 @@ export const useKForm = () => {
      * @description 设置form组件的props
      * @param props form组件的props
      */
-    // setProps: async (props: FormProps = {}) => {
-    //   const form = await getForm()
-    //   form?.setProps(props)
-    //   if (props.model) {
-    //     form?.setValues(props.model)
-    //   }
-    // },
+    setProps: async (props: FormProps = {}) => {
+      const form = await getForm()
+      form?.exposed?.setProps(props)
+      if (props.model) {
+        form?.exposed?.setValues(props.model)
+      }
+    },
 
     /**
      * @description 设置form的值
