@@ -1,9 +1,10 @@
 <script setup lang="tsx">
 import { ref, unref, onMounted, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
-import type { FormSchema } from './types'
-import { componentMap } from './helper/componentMap'
 import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
+import type { FormSchema } from './types'
+import type { Recordable } from './helper'
+import { componentMap } from './helper/componentMap'
 
 const props = defineProps({
   schema: {
@@ -29,20 +30,30 @@ const props = defineProps({
 })
 const emit = defineEmits(['register'])
 
-const formModel = ref(
-  props.schema.reduce(
-    (acc: Record<string, unknown>, item) => {
-      acc[item.field] = item.value || null
-      return acc
-    },
-    {} as Record<string, unknown>,
-  ),
-)
+// const formModel = ref(
+//   props.schema.reduce(
+//     (acc: Record<string, unknown>, item) => {
+//       acc[item.field] = item.value || null
+//       return acc
+//     },
+//     {} as Record<string, unknown>,
+//   ),
+// )
+const formModel = ref(props.model)
 const aFormRef = ref<AFormInstance>()
 
 onMounted(() => {
   const instance = getCurrentInstance()
   emit('register', unref(instance), unref(aFormRef))
+})
+
+// 对表单赋值
+const setValues = (data: Recordable = {}) => {
+  formModel.value = Object.assign(unref(formModel), data)
+}
+
+defineExpose({
+  setValues,
 })
 </script>
 

@@ -36,22 +36,22 @@ export const useKForm = () => {
      * @description 设置form组件的props
      * @param props form组件的props
      */
-    setProps: async (props: FormProps = {}) => {
-      const form = await getForm()
-      form?.setProps(props)
-      if (props.model) {
-        form?.setValues(props.model)
-      }
-    },
+    // setProps: async (props: FormProps = {}) => {
+    //   const form = await getForm()
+    //   form?.setProps(props)
+    //   if (props.model) {
+    //     form?.setValues(props.model)
+    //   }
+    // },
 
     /**
      * @description 设置form的值
      * @param data 需要设置的数据
      */
-    // setValues: async (data: Recordable) => {
-    //   const form = await getForm()
-    //   form?.setValues(data)
-    // },
+    setValues: async (data: Recordable) => {
+      const form = await getForm()
+      form?.exposed?.setValues(data)
+    },
 
     /**
      * @description 设置schema
