@@ -2,7 +2,8 @@
 import { ref, unref, computed, onMounted, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
-import type { FormProps, FormSchema } from './types'
+import type { FormProps, FormSchema, FormSetProps } from './types'
+import { get, set } from 'lodash-es'
 import type { Recordable } from './helper'
 import { componentMap } from './helper/componentMap'
 
@@ -68,10 +69,23 @@ const addSchema = (formSchema: FormSchema, index?: number) => {
   schema.push(formSchema)
 }
 
+// set schema
+const setSchema = (schemaProps: FormSetProps[]) => {
+  const { schema } = unref(getProps)
+  for (const v of schema) {
+    for (const item of schemaProps) {
+      if (v.field === item.field) {
+        set(v, item.path, item.value)
+      }
+    }
+  }
+}
+
 defineExpose({
   setValues,
   setProps,
   addSchema,
+  setSchema,
 })
 </script>
 

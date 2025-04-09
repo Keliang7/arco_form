@@ -12,6 +12,6 @@ export interface FormExpose {
   getFormItemExpose: (field: string) => any
 }
 
-export type { FormProps, FormSchema } from './src/types'
+export type { FormProps, FormSchema, FormSetProps } from './src/types'
 
 export { KForm }

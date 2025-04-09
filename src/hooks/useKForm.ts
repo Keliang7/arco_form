@@ -1,6 +1,6 @@
 import type { ComponentInternalInstance } from 'vue'
 import type { Form as AForm } from '@arco-design/web-vue'
-import type { FormProps, FormSchema } from '@/components/KForm'
+import type { FormProps, FormSchema, FormSetProps } from '@/components/KForm'
 import { ref, unref, nextTick } from 'vue'
 // import { isEmptyVal, isObject } from '@/utils/is'
 
@@ -66,10 +66,10 @@ export const useKForm = () => {
      * @description 设置schema
      * @param schemaProps 需要设置的schemaProps
      */
-    // setSchema: async (schemaProps: FormSetProps[]) => {
-    //   const form = await getForm()
-    //   form?.setSchema(schemaProps)
-    // },
+    setSchema: async (schemaProps: FormSetProps[]) => {
+      const form = await getForm()
+      form?.exposed?.setSchema(schemaProps)
+    },
 
     /**
      * @description 删除schema

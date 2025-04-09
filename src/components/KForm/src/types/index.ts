@@ -52,6 +52,11 @@ type CamelCaseComponentName = keyof typeof ComponentNameEnum extends infer K
 
 export type ComponentName = CamelCaseComponentName
 
+export interface FormSetProps {
+  field: string
+  path: string
+  value: any
+}
 export interface FormSchema {
   /**
    * 唯一标识
