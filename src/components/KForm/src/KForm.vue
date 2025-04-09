@@ -58,9 +58,20 @@ const setProps = (props: FormProps = {}) => {
   mergeProps.value = Object.assign(unref(mergeProps), props)
 }
 
+// add schema
+const addSchema = (formSchema: FormSchema, index?: number) => {
+  const { schema } = unref(getProps)
+  if (index !== void 0) {
+    schema.splice(index, 0, formSchema)
+    return
+  }
+  schema.push(formSchema)
+}
+
 defineExpose({
   setValues,
   setProps,
+  addSchema,
 })
 </script>
 

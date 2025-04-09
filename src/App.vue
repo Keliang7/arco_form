@@ -55,7 +55,7 @@ const schema = ref<FormSchema[]>([
 ])
 
 const { formRegister, formMethods } = useKForm()
-const { getFormExpose, getAFormExpose, setValues, setProps } = formMethods
+const { getFormExpose, getAFormExpose, setValues, setProps, addSchema } = formMethods
 
 const getForm = async () => {
   const form = await getFormExpose()
@@ -76,6 +76,35 @@ const setFormProps = async () => {
     labelWidth: '200px',
   })
 }
+const addFormSchema = async () => {
+  await addSchema(
+    {
+      field: '1111',
+      value: 'admin',
+      component: 'Select',
+      componentProps: {
+        allowClear: true,
+        options: [
+          { label: '选项1', value: 'option1' },
+          { label: '选项2', value: 'option2' },
+        ],
+        showCancelButton: true,
+      },
+      formItemProps: {
+        labelColStyle: {
+          backgroundColor: 'rgb(242,243,245)',
+        },
+        rules: {
+          required: true,
+        },
+      },
+      colProps: {
+        span: 12,
+      },
+    },
+    1,
+  )
+}
 </script>
 
 <template>
@@ -85,5 +114,6 @@ const setFormProps = async () => {
     <button @click="getAFrom">getAFrom</button>
     <button @click="setFormValues">setFormValues</button>
     <button @click="setFormProps">setFormProps</button>
+    <button @click="addFormSchema">addFormSchema</button>
   </div>
 </template>
