@@ -75,10 +75,10 @@ export const useKForm = () => {
      * @description 删除schema
      * @param field 删除哪个数据
      */
-    // delSchema: async (field: string) => {
-    //   const form = await getForm()
-    //   form?.delSchema(field)
-    // },
+    delSchema: async (field: string) => {
+      const form = await getForm()
+      form?.exposed?.delSchema(field)
+    },
 
     /**
      * @description 获取表单数据

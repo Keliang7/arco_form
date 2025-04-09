@@ -81,11 +81,22 @@ const setSchema = (schemaProps: FormSetProps[]) => {
   }
 }
 
+// delete schema
+const delSchema = (field: string) => {
+  const { schema } = unref(getProps)
+
+  const index = schema.findIndex((v: FormSchema) => v.field === field)
+  if (index > -1) {
+    schema.splice(index, 1)
+  }
+}
+
 defineExpose({
   setValues,
   setProps,
   addSchema,
   setSchema,
+  delSchema,
 })
 </script>
 
