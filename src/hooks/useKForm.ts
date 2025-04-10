@@ -1,12 +1,12 @@
+import { ref, unref, nextTick } from 'vue'
 import type { ComponentInternalInstance } from 'vue'
 import type { Form as AForm, FormItem as AFormItem } from '@arco-design/web-vue'
-import type { FormProps, FormSchema, FormSetProps } from '@/components/KForm'
-import { ref, unref, nextTick } from 'vue'
+import type { FormProps, FormSchema, FormSetProps, KFormExpose } from '@/components/KForm'
 import { isEmptyVal, isObject } from '@/utils/is'
 
 export const useKForm = () => {
   // From实例
-  const formRef = ref<ComponentInternalInstance>()
+  const formRef = ref<ComponentInternalInstance & { exposed: KFormExpose }>()
 
   // AForm实例
   const aFormRef = ref<InstanceType<typeof AForm>>()
@@ -15,7 +15,10 @@ export const useKForm = () => {
    * @param KFormInternal KForm组件内部实例
    * @param aRef AForm实例
    */
-  const register = (KFormInternal: ComponentInternalInstance, aRef: InstanceType<typeof AForm>) => {
+  const register = (
+    KFormInternal: ComponentInternalInstance & { exposed: KFormExpose },
+    aRef: InstanceType<typeof AForm>,
+  ) => {
     formRef.value = KFormInternal
     aFormRef.value = aRef
   }

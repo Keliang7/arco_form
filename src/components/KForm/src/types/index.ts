@@ -42,6 +42,12 @@ export enum ComponentNameEnum {
   UPLOAD = 'Upload',
 }
 
+export interface FormSetProps {
+  field: string
+  path: string
+  value: any
+}
+
 type CamelCaseComponentName = keyof typeof ComponentNameEnum extends infer K
   ? K extends string
     ? K extends `${infer A}_${infer B}`
