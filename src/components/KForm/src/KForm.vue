@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ref, unref, computed, onMounted, getCurrentInstance } from 'vue'
+import { ref, unref, computed, onMounted, getCurrentInstance, ComponentPublicInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
 import type { FormProps, FormSchema, FormSetProps } from './types'
@@ -143,6 +143,7 @@ const getFormItemExpose = (field: string) => {
 }
 
 defineExpose({
+  formModel,
   setValues,
   setProps,
   addSchema,

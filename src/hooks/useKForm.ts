@@ -2,7 +2,7 @@ import type { ComponentInternalInstance } from 'vue'
 import type { Form as AForm, FormItem as AFormItem } from '@arco-design/web-vue'
 import type { FormProps, FormSchema, FormSetProps } from '@/components/KForm'
 import { ref, unref, nextTick } from 'vue'
-// import { isEmptyVal, isObject } from '@/utils/is'
+import { isEmptyVal, isObject } from '@/utils/is'
 
 export const useKForm = () => {
   // From实例
@@ -84,28 +84,30 @@ export const useKForm = () => {
      * @description 获取表单数据
      * @returns form data
      */
-    // getFormData: async <T = Recordable>(filterEmptyVal = true): Promise<T> => {
-    //   const form = await getForm()
-    //   const model = form?.formModel as any
-    //   if (filterEmptyVal) {
-    //     // 使用reduce过滤空值，并返回一个新对象
-    //     return Object.keys(model).reduce((prev, next) => {
-    //       const value = model[next]
-    //       if (!isEmptyVal(value)) {
-    //         if (isObject(value)) {
-    //           if (Object.keys(value).length > 0) {
-    //             prev[next] = value
-    //           }
-    //         } else {
-    //           prev[next] = value
-    //         }
-    //       }
-    //       return prev
-    //     }, {}) as T
-    //   } else {
-    //     return model as T
-    //   }
-    // },
+    getFormData: async <T = Recordable>(filterEmptyVal = true): Promise<T> => {
+      const form = await getForm()
+      console.log(form)
+      const model = form?.exposed?.formModel as any
+      console.log(model)
+      if (filterEmptyVal) {
+        // 使用reduce过滤空值，并返回一个新对象
+        return Object.keys(model).reduce((prev, next) => {
+          const value = model[next]
+          if (!isEmptyVal(value)) {
+            if (isObject(value)) {
+              if (Object.keys(value).length > 0) {
+                ;(prev as Record<string, any>)[next] = value
+              }
+            } else {
+              ;(prev as Record<string, any>)[next] = value
+            }
+          }
+          return prev
+        }, {}) as T
+      } else {
+        return model as T
+      }
+    },
 
     /**
      * @description 获取表单组件的实例

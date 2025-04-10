@@ -65,6 +65,7 @@ const {
   delSchema,
   getComponentExpose,
   getFormItemExpose,
+  getFormData,
 } = formMethods
 
 const getForm = async () => {
@@ -137,6 +138,11 @@ const getFormItemExposeFn = async () => {
   const formItemComponent = await getFormItemExpose('username')
   console.log('formItemComponent', formItemComponent)
 }
+
+const getFormValues = async () => {
+  const formValues = await getFormData()
+  console.log('formValues', formValues)
+}
 </script>
 
 <template>
@@ -151,5 +157,6 @@ const getFormItemExposeFn = async () => {
     <button @click="delFormSchema">delFormSchema</button>
     <button @click="getComponentExposeFn">getComponentExposeFn</button>
     <button @click="getFormItemExposeFn">getFormItemExposeFn</button>
+    <button @click="getFormValues">getFormValues</button>
   </div>
 </template>
