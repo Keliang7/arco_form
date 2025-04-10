@@ -1,5 +1,5 @@
 import type { ComponentInternalInstance } from 'vue'
-import type { Form as AForm } from '@arco-design/web-vue'
+import type { Form as AForm, FormItem as AFormItem } from '@arco-design/web-vue'
 import type { FormProps, FormSchema, FormSetProps } from '@/components/KForm'
 import { ref, unref, nextTick } from 'vue'
 // import { isEmptyVal, isObject } from '@/utils/is'
@@ -122,10 +122,10 @@ export const useKForm = () => {
      * @param field 表单项唯一标识
      * @returns formItem instance
      */
-    // getFormItemExpose: async (field: string) => {
-    //   const form = await getForm()
-    //   return form?.getFormItemExpose(field) as ComponentRef<typeof ElFormItem>
-    // },
+    getFormItemExpose: async (field: string) => {
+      const form = await getForm()
+      return form?.exposed?.getFormItemExpose(field) as InstanceType<typeof AFormItem>
+    },
 
     /**
      * @description 获取AForm组件的实例

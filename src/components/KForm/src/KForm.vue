@@ -51,7 +51,7 @@ const getProps = computed(() => {
 const fieldComponents = ref<{ [key: string]: any }>({})
 
 // 存储AFormItem实例
-const aFormItemComponents = ref({})
+const aFormItemComponents = ref<{ [key: string]: any }>({})
 
 onMounted(() => {
   const instance = getCurrentInstance()
@@ -129,12 +129,17 @@ const getComponentExpose = (field: string) => {
   return unref(fieldComponents)[field]
 }
 
+// 设置formItem实例
+const setFormItemRefMap = (ref: any, filed: string) => {
+  aFormItemComponents.value[filed] = ref
+}
+
 /**
  * @description: 获取formItem实例
  * @param field 表单字段
  */
 const getFormItemExpose = (field: string) => {
-  return unref(formItemComponents)[field]
+  return unref(aFormItemComponents)[field]
 }
 
 defineExpose({
@@ -144,6 +149,7 @@ defineExpose({
   setSchema,
   delSchema,
   getComponentExpose,
+  getFormItemExpose,
 })
 </script>
 
@@ -163,6 +169,7 @@ defineExpose({
           <AFormItem
             :style="{ marginBottom: '0' }"
             :field="item.field"
+            :ref="(el: any) => setFormItemRefMap(el, item.field)"
             :label="item.label || item.field"
             v-bind="item.formItemProps"
           >
