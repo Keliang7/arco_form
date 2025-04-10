@@ -55,8 +55,16 @@ const schema = ref<FormSchema[]>([
 ])
 
 const { formRegister, formMethods } = useKForm()
-const { getFormExpose, getAFormExpose, setValues, setProps, addSchema, setSchema, delSchema } =
-  formMethods
+const {
+  getFormExpose,
+  getAFormExpose,
+  setValues,
+  setProps,
+  addSchema,
+  setSchema,
+  delSchema,
+  getComponentExpose,
+} = formMethods
 
 const getForm = async () => {
   const form = await getFormExpose()
@@ -118,6 +126,11 @@ const setFormSchema = async () => {
 const delFormSchema = async () => {
   await delSchema('username')
 }
+
+const getComponentExposeFn = async () => {
+  const fieldComponent = await getComponentExpose('username')
+  console.log('fieldComponent', fieldComponent)
+}
 </script>
 
 <template>
@@ -130,5 +143,6 @@ const delFormSchema = async () => {
     <button @click="addFormSchema">addFormSchema</button>
     <button @click="setFormSchema">setFormSchema</button>
     <button @click="delFormSchema">delFormSchema</button>
+    <button @click="getComponentExposeFn">getComponentExposeFn</button>
   </div>
 </template>

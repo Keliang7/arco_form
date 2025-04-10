@@ -3,6 +3,7 @@ import { ref, unref, computed, onMounted, getCurrentInstance } from 'vue'
 import type { PropType } from 'vue'
 import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
 import type { FormProps, FormSchema, FormSetProps } from './types'
+import { ComponentNameEnum } from './types'
 import { get, set } from 'lodash-es'
 import type { Recordable } from './helper'
 import { componentMap } from './helper/componentMap'
@@ -32,8 +33,12 @@ const props = defineProps({
 
 const emit = defineEmits(['register'])
 
+// AForm实例
+const aFormRef = ref<AFormInstance>()
+
 const formModel = ref(props.model)
 
+// 用于合并和管理porps的变量
 const mergeProps = ref<FormProps>({})
 
 const getProps = computed(() => {
@@ -42,7 +47,11 @@ const getProps = computed(() => {
   return propsObj
 })
 
-const aFormRef = ref<AFormInstance>()
+// 存储表单实例(Input,Select等)
+const fieldComponents = ref<{ [key: string]: any }>({})
+
+// 存储AFormItem实例
+const aFormItemComponents = ref({})
 
 onMounted(() => {
   const instance = getCurrentInstance()
@@ -91,12 +100,50 @@ const delSchema = (field: string) => {
   }
 }
 
+// get options from tree_select and transfer
+// const getOptions = async (fn: () => Promise<any>, item: FormSchema) => {
+//   const options = await fn()
+//   setSchema([
+//     {
+//       field: item.field,
+//       path:
+//         item.component === ComponentNameEnum.TREE_SELECT ||
+//         item.component === ComponentNameEnum.TRANSFER
+//           ? 'componentProps.data'
+//           : 'componentProps.options',
+//       value: options,
+//     },
+//   ])
+// }
+
+// 设置表单实例(Input,Select等)
+const setComponentRefMap = (ref: any, field: string) => {
+  fieldComponents.value[field] = ref
+}
+
+/**
+ * @description: 获取表单组件实例
+ * @param field 表单字段
+ */
+const getComponentExpose = (field: string) => {
+  return unref(fieldComponents)[field]
+}
+
+/**
+ * @description: 获取formItem实例
+ * @param field 表单字段
+ */
+const getFormItemExpose = (field: string) => {
+  return unref(formItemComponents)[field]
+}
+
 defineExpose({
   setValues,
   setProps,
   addSchema,
   setSchema,
   delSchema,
+  getComponentExpose,
 })
 </script>
 
@@ -121,6 +168,7 @@ defineExpose({
           >
             <component
               :is="item.component ? componentMap[item.component] : 'Input'"
+              :ref="(el:any) => setComponentRefMap(el, item.field)"
               v-model="formModel[item.field]"
               v-bind="item.componentProps"
             />

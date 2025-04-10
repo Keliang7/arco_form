@@ -112,10 +112,10 @@ export const useKForm = () => {
      * @param field 表单项唯一标识
      * @returns component instance
      */
-    // getComponentExpose: async (field: string) => {
-    //   const form = await getForm()
-    //   return form?.getComponentExpose(field)
-    // },
+    getComponentExpose: async (field: string) => {
+      const form = await getForm()
+      return form?.exposed?.getComponentExpose(field)
+    },
 
     /**
      * @description 获取formItem组件的实例
