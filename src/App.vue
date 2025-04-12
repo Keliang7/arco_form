@@ -27,6 +27,9 @@ const schema = ref<FormSchema[]>([
         },
       },
     },
+    componentProps: {
+      placeholder: '请输入用户名',
+    },
   },
   {
     field: 'test',
@@ -147,7 +150,7 @@ const getFormValues = async () => {
 
 <template>
   <div class="test app">
-    <KForm :schema="schema" @register="formRegister"></KForm>
+    <KForm :schema="schema" :auto-set-placeholder="true" @register="formRegister"></KForm>
     <button @click="getForm">getForm</button>
     <button @click="getAFrom">getAFrom</button>
     <button @click="setFormValues">setFormValues</button>

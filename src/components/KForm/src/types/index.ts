@@ -21,6 +21,13 @@ import type {
   FormItemInstance,
 } from '@arco-design/web-vue'
 
+export interface PlaceholderModel {
+  placeholder?: string
+  startPlaceholder?: string
+  endPlaceholder?: string
+  rangeSeparator?: string
+}
+
 export enum ComponentNameEnum {
   AUTO_COMPLETE = 'AutoComplete',
   CASCADER = 'Cascader',

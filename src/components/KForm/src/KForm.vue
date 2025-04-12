@@ -1,12 +1,13 @@
 <script setup lang="tsx">
 import { ref, unref, computed, onMounted, getCurrentInstance } from 'vue'
-import type { PropType } from 'vue'
-import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
-import type { FormProps, FormSchema, FormSetProps } from './types'
+import { componentMap } from './helper/componentMap'
 import { ComponentNameEnum } from './types'
 import { get, set } from 'lodash-es'
 import type { Recordable } from './helper'
-import { componentMap } from './helper/componentMap'
+import { setTextPlaceholder } from './helper'
+import type { PropType } from 'vue'
+import type { FormInstance as AFormInstance } from '@arco-design/web-vue'
+import type { FormProps, FormSchema, FormSetProps } from './types'
 
 const props = defineProps({
   schema: {
@@ -178,7 +179,10 @@ defineExpose({
               :is="item.component ? componentMap[item.component] : 'Input'"
               :ref="(el:any) => setComponentRefMap(el, item.field)"
               v-model="formModel[item.field]"
-              v-bind="item.componentProps"
+              v-bind="{
+                ...(props.autoSetPlaceholder ? setTextPlaceholder(item) : {}), // 自动设置placeholder，且防止覆盖自定义placeholder
+                ...item.componentProps,
+              }"
             />
           </AFormItem>
         </ACol>
