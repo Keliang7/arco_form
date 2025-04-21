@@ -4,6 +4,11 @@ import type { FormSchema } from './components/KForm/src/types'
 import { useKForm } from './hooks/useKForm'
 
 const isHidden = ref(false)
+
+const model = ref<Recordable>({
+  username: 'test',
+  test: '123',
+})
 const schema = ref<FormSchema[]>([
   {
     field: 'username',
@@ -146,11 +151,24 @@ const getFormValues = async () => {
   const formValues = await getFormData()
   console.log('formValues', formValues)
 }
+
+const log = () => {
+  console.log('model', model.value)
+}
+
+const setmodelvalue = () => {
+  model.value.username = '123'
+}
 </script>
 
 <template>
   <div class="test app">
-    <KForm :schema="schema" :auto-set-placeholder="true" @register="formRegister"></KForm>
+    <KForm
+      :schema="schema"
+      :model="model"
+      :auto-set-placeholder="true"
+      @register="formRegister"
+    ></KForm>
     <button @click="getForm">getForm</button>
     <button @click="getAFrom">getAFrom</button>
     <button @click="setFormValues">setFormValues</button>
@@ -161,5 +179,8 @@ const getFormValues = async () => {
     <button @click="getComponentExposeFn">getComponentExposeFn</button>
     <button @click="getFormItemExposeFn">getFormItemExposeFn</button>
     <button @click="getFormValues">getFormValues</button>
+
+    <button @click="log">clog model</button>
+    <button @click="setmodelvalue">setmodelvalue</button>
   </div>
 </template>

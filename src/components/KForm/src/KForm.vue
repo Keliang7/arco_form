@@ -37,7 +37,7 @@ const emit = defineEmits(['register'])
 // AForm实例
 const aFormRef = ref<AFormInstance>()
 
-const formModel = ref(props.model)
+const formModel = ref(props.model) // 引用传递
 
 // 用于合并和管理porps的变量
 const mergeProps = ref<FormProps>({})
