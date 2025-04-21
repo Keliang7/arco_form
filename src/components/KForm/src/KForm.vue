@@ -153,6 +153,11 @@ defineExpose({
   getComponentExpose,
   getFormItemExpose,
 })
+
+const getModelKey = (item: FormSchema) => {
+  console.log(item.component)
+  return item.component === 'Upload' ? 'file-list' : 'modelValue'
+}
 </script>
 
 <template>
@@ -178,7 +183,7 @@ defineExpose({
             <component
               :is="item.component ? componentMap[item.component] : 'Input'"
               :ref="(el:any) => setComponentRefMap(el, item.field)"
-              v-model="formModel[item.field]"
+              v-model:[getModelKey(item)]="formModel[item.field]"
               v-bind="{
                 ...(props.autoSetPlaceholder ? setTextPlaceholder(item) : {}), // 自动设置placeholder，且防止覆盖自定义placeholder
                 ...item.componentProps,

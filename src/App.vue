@@ -8,6 +8,13 @@ const isHidden = ref(false)
 const model = ref<Recordable>({
   username: 'test',
   test: '123',
+  // img: [
+  //   {
+  //     uid: '-1',
+  //     name: 'hahhahahahaha.png',
+  //     url: '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/e278888093bef8910e829486fb45dd69.png~tplv-uwbnlip3yd-webp.webp',
+  //   },
+  // ],
 })
 const schema = ref<FormSchema[]>([
   {
@@ -16,6 +23,8 @@ const schema = ref<FormSchema[]>([
     component: 'Input', // Ensure this matches the union type
     hidden: isHidden.value,
     formItemProps: {
+      extra: '123',
+
       labelColStyle: {
         backgroundColor: 'rgb(202,203,205)',
       },
@@ -58,6 +67,24 @@ const schema = ref<FormSchema[]>([
     },
     colProps: {
       span: 12,
+    },
+  },
+  {
+    field: 'img',
+    label: '考试图片：',
+    component: 'Upload',
+    formItemProps: {
+      rules: {
+        required: true,
+      },
+      extra: '只支持.jpg .png .gif格式',
+    },
+    componentProps: {
+      // v-model:file-list="fileList"
+      listType: 'picture-card',
+      autoUpload: false,
+      imagePreview: true,
+      accept: '.jpg,.png,.gif',
     },
   },
 ])
@@ -159,10 +186,23 @@ const log = () => {
 const setmodelvalue = () => {
   model.value.username = '123'
 }
+
+const slot = {
+  prepend: 'prepend',
+  append: 'append',
+  prefix: 'prefix',
+  suffix: 'suffix',
+}
 </script>
 
 <template>
   <div class="test app">
+    <AInput v-bind="slot">
+      <!-- <template #append>append</template>
+      <template #prepend>prepend</template>
+      <template #suffix>suffix</template>
+      <template #prefix>perfix</template> -->
+    </AInput>
     <KForm
       :schema="schema"
       :model="model"
